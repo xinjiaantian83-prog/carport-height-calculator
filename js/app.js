@@ -107,7 +107,7 @@ function updateDiagram(spanMm, slopeDeg, dropMm) {
   const postDistance = 154 + spanRatio * 64;
   const lowX = 195 - postDistance / 2;
   const highX = 195 + postDistance / 2;
-  const roofOverhang = postDistance * (1100 / 2900);
+  const roofOverhang = postDistance * (1050 / 2900);
   const roofLowX = Math.max(4, lowX - roofOverhang);
   const roofHighX = Math.min(386, highX + roofOverhang);
   const groundY = 156;
@@ -140,8 +140,8 @@ function updateDiagram(spanMm, slopeDeg, dropMm) {
   setSvgLine(els.dropTopTick, tickLeftX, highY, tickRightX, highY);
   setSvgLine(els.dropBottomTick, tickLeftX, lowRoofY, tickRightX, lowRoofY);
 
-  const dropLabelY = highY + ((lowRoofY - highY) / 2) - 6;
-  setDropLabel(Math.min(dimX + 8, 370), dropLabelY, dropMm);
+  const dropLabelY = lowRoofY + 18;
+  setDropLabel(Math.min(dimX + 16, 374), dropLabelY, dropMm);
   els.spanLabel.textContent = spanMm > 0 ? `柱間寸法 ${formatMm(spanMm)}` : "柱間寸法 --mm";
 }
 
