@@ -39,10 +39,7 @@ const els = {
   dropBottomGuide: document.getElementById("dropBottomGuide"),
   dropLine: document.getElementById("dropLine"),
   dropTopTick: document.getElementById("dropTopTick"),
-  dropBottomTick: document.getElementById("dropBottomTick"),
-  lowPostLabel: document.getElementById("lowPostLabel"),
-  highPostLabel: document.getElementById("highPostLabel"),
-  roofLabel: document.getElementById("roofLabel")
+  dropBottomTick: document.getElementById("dropBottomTick")
 };
 
 function readNumber(input) {
@@ -86,6 +83,23 @@ function setSvgText(text, x, y) {
   text.setAttribute("y", svgNumber(y));
 }
 
+function setDropLabel(x, y, dropMm) {
+  els.dropLabel.setAttribute("x", svgNumber(x));
+  els.dropLabel.setAttribute("y", svgNumber(y));
+  els.dropLabel.textContent = "";
+
+  const title = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+  title.setAttribute("x", svgNumber(x));
+  title.textContent = "柱間高低差";
+
+  const value = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+  value.setAttribute("x", svgNumber(x));
+  value.setAttribute("dy", "13");
+  value.textContent = dropMm === null ? "--mm" : formatMm(dropMm);
+
+  els.dropLabel.append(title, value);
+}
+
 function updateDiagram(spanMm, slopeDeg, dropMm) {
   const drawingSpan = spanMm > 0 ? spanMm : 2900;
   const drawingDrop = dropMm === null ? 203 : dropMm;
@@ -124,13 +138,8 @@ function updateDiagram(spanMm, slopeDeg, dropMm) {
   setSvgLine(els.dropTopTick, tickLeftX, highY, tickRightX, highY);
   setSvgLine(els.dropBottomTick, tickLeftX, lowRoofY, tickRightX, lowRoofY);
 
-  const dropLabelY = clamp(lowRoofY + 12, highY + 20, 134);
-  setSvgText(els.dropLabel, dimX - 6, dropLabelY);
-  setSvgText(els.lowPostLabel, lowX, Math.max(82, lowPostTop - 13));
-  setSvgText(els.highPostLabel, highX, highY - 10);
-  setSvgText(els.roofLabel, (roofLowX + roofHighX) / 2, highY - 4);
-
-  els.dropLabel.textContent = dropMm === null ? "柱間高低差 --mm" : `柱間高低差 ${formatMm(dropMm)}`;
+  const dropLabelY = highY + ((lowRoofY - highY) / 2) - 6;
+  setDropLabel(Math.min(dimX + 8, 370), dropLabelY, dropMm);
   els.spanLabel.textContent = spanMm > 0 ? `柱間寸法 ${formatMm(spanMm)}` : "柱間寸法 --mm";
 }
 

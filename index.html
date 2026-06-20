@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#ffffff">
   <title>フラットタイプカーポート 高さ計算機</title>
-  <link rel="stylesheet" href="css/styles.css?v=20260620-simple-diagram">
+  <link rel="stylesheet" href="css/styles.css?v=20260620-dimension-only">
 </head>
 <body>
   <div class="app-shell">
@@ -47,9 +47,9 @@
 
       <section class="diagram-panel" aria-labelledby="diagram-title">
         <h2 id="diagram-title">フラットタイプカーポート側面図</h2>
-        <svg class="carport-diagram" viewBox="0 0 390 190" role="img" aria-labelledby="diagram-svg-title diagram-svg-desc">
+        <svg class="carport-diagram" viewBox="0 0 430 190" role="img" aria-labelledby="diagram-svg-title diagram-svg-desc">
           <title id="diagram-svg-title">フラットタイプカーポートの側面図</title>
-          <desc id="diagram-svg-desc">水上側柱、水下側柱、屋根ライン、柱間寸法、柱間高低差を示す図</desc>
+          <desc id="diagram-svg-desc">柱間寸法と柱間高低差を示す側面図</desc>
 
           <line x1="30" y1="156" x2="360" y2="156" class="ground-line"/>
 
@@ -67,11 +67,7 @@
           <line id="dropLine" x1="340" y1="72" x2="340" y2="107" class="height-measure"/>
           <line id="dropTopTick" x1="326" y1="72" x2="354" y2="72" class="measure-tick"/>
           <line id="dropBottomTick" x1="326" y1="107" x2="354" y2="107" class="measure-tick"/>
-          <text id="dropLabel" x="336" y="92" text-anchor="end" class="diagram-label">柱間高低差 203mm</text>
-
-          <text id="lowPostLabel" x="92" y="87" text-anchor="middle" class="post-label">水下側柱</text>
-          <text id="highPostLabel" x="298" y="52" text-anchor="middle" class="post-label">水上側柱</text>
-          <text id="roofLabel" x="190" y="54" text-anchor="middle" class="roof-label">屋根ライン</text>
+          <text id="dropLabel" x="356" y="92" text-anchor="start" class="diagram-label">柱間高低差 203mm</text>
         </svg>
       </section>
     </main>
@@ -84,6 +80,6 @@
     </footer>
   </div>
 
-  <script src="js/app.js?v=20260620-simple-diagram"></script>
+  <script src="js/app.js?v=20260620-dimension-only"></script>
 </body>
 </html>
