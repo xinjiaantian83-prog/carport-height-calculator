@@ -111,12 +111,14 @@ function updateDiagram(spanMm, slopeDeg, dropMm) {
   const roofLowX = Math.max(28, lowX - roofOverhang);
   const roofHighX = Math.min(362, highX + roofOverhang);
   const groundY = 156;
-  const spanY = 171;
+  const postBottomY = groundY + 24;
+  const spanY = postBottomY + 12;
   const highY = 44;
   const visualDrop = clamp(drawingDrop / 8, 14, 78);
   const lowRoofY = highY + visualDrop;
-  const lowPostTop = lowRoofY + 8;
-  const highPostTop = highY + 6;
+  const roofYAt = (x) => lowRoofY + ((highY - lowRoofY) * (x - roofLowX)) / (roofHighX - roofLowX);
+  const lowPostTop = roofYAt(lowX);
+  const highPostTop = roofYAt(highX);
   const dimX = Math.min(362, highX + 38);
   const tickLeftX = dimX - 12;
   const tickRightX = Math.min(372, dimX + 12);
@@ -124,13 +126,13 @@ function updateDiagram(spanMm, slopeDeg, dropMm) {
   const guideStartBottomX = Math.max(roofLowX, lowX - 6);
 
   setSvgLine(els.roofLine, roofLowX, lowRoofY, roofHighX, highY);
-  setSvgLine(els.lowPost, lowX, lowPostTop, lowX, groundY);
-  setSvgLine(els.highPost, highX, highPostTop, highX, groundY);
+  setSvgLine(els.lowPost, lowX, lowPostTop, lowX, postBottomY);
+  setSvgLine(els.highPost, highX, highPostTop, highX, postBottomY);
 
   setSvgLine(els.spanLine, lowX, spanY, highX, spanY);
   setSvgLine(els.spanLeftTick, lowX, spanY - 7, lowX, spanY + 7);
   setSvgLine(els.spanRightTick, highX, spanY - 7, highX, spanY + 7);
-  setSvgText(els.spanLabel, 195, 186);
+  setSvgText(els.spanLabel, 195, spanY + 17);
 
   setSvgLine(els.dropTopGuide, guideStartTopX, highY, dimX, highY);
   setSvgLine(els.dropBottomGuide, guideStartBottomX, lowRoofY, dimX, lowRoofY);
