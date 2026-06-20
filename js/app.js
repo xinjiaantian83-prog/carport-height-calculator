@@ -103,7 +103,7 @@ function updateDiagram(spanMm, slopeDeg, dropMm) {
   const postDistance = 148 + spanRatio * 124;
   const lowX = 195 - postDistance / 2;
   const highX = 195 + postDistance / 2;
-  const roofOverhang = clamp(18 + spanRatio * 8, 18, 26);
+  const roofOverhang = postDistance * 0.16;
   const roofLowX = Math.max(28, lowX - roofOverhang);
   const roofHighX = Math.min(362, highX + roofOverhang);
   const baseY = 147;
