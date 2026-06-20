@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <title>フラットタイプカーポート 高さ計算機</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="page-header">
+      <p class="eyebrow">CARPORT HEIGHT CALCULATOR</p>
+      <h1><span>フラットタイプカーポート</span><span>高さ計算機</span></h1>
+      <p class="subtitle">柱間寸法と勾配から<br>柱間高低差を計算</p>
+    </header>
+
+    <main>
+      <section class="calculator" aria-labelledby="calculator-title">
+        <h2 id="calculator-title">入力</h2>
+        <div class="input-grid">
+          <label class="field">
+            <span class="label-text">柱間寸法</span>
+            <span class="unit">mm</span>
+            <input id="spanMm" type="number" inputmode="decimal" min="0" step="1" value="2900" aria-describedby="span-help">
+            <small id="span-help">例：2900</small>
+          </label>
+
+          <label class="field">
+            <span class="label-text">勾配</span>
+            <span class="unit">°</span>
+            <input id="slopeDeg" type="number" inputmode="decimal" min="0" step="0.1" value="4" aria-describedby="slope-help">
+            <small id="slope-help">例：4</small>
+          </label>
+        </div>
+      </section>
+
+      <section class="result-panel" aria-live="polite" aria-labelledby="result-title">
+        <p id="result-title" class="result-label">柱間高低差</p>
+        <div class="result-value">
+          <strong id="dropMm">203</strong>
+          <span>mm</span>
+        </div>
+        <div class="summary-line">
+          <span>勾配：<strong id="summarySlope">4°</strong></span>
+          <span>柱間寸法：<strong id="summarySpan">2900mm</strong></span>
+        </div>
+      </section>
+
+      <section class="diagram-panel" aria-labelledby="diagram-title">
+        <h2 id="diagram-title">フラットタイプカーポート側面図</h2>
+        <svg class="carport-diagram" viewBox="0 0 390 250" role="img" aria-labelledby="diagram-svg-title diagram-svg-desc">
+          <title id="diagram-svg-title">フラットタイプカーポートの側面図</title>
+          <desc id="diagram-svg-desc">水上側柱、水下側柱、屋根ライン、柱間寸法、柱間高低差を示す図</desc>
+
+          <line x1="30" y1="216" x2="360" y2="216" class="ground-line"/>
+
+          <line id="highPost" x1="92" y1="84" x2="92" y2="216" class="post-line"/>
+          <line id="lowPost" x1="298" y1="128" x2="298" y2="216" class="post-line"/>
+          <line id="roofLine" x1="70" y1="72" x2="320" y2="118" class="roof-line"/>
+          <line id="roofUnderLine" x1="76" y1="88" x2="314" y2="132" class="roof-under-line"/>
+
+          <rect x="80" y="206" width="24" height="10" rx="1" class="base"/>
+          <rect x="286" y="206" width="24" height="10" rx="1" class="base"/>
+
+          <line x1="92" y1="230" x2="298" y2="230" class="measure-line"/>
+          <line x1="92" y1="222" x2="92" y2="238" class="measure-tick"/>
+          <line x1="298" y1="222" x2="298" y2="238" class="measure-tick"/>
+          <text x="195" y="247" text-anchor="middle" class="diagram-label" id="spanLabel">柱間寸法 2900mm</text>
+
+          <line id="dropLine" x1="340" y1="82" x2="340" y2="126" class="height-measure"/>
+          <line id="dropTopTick" x1="326" y1="82" x2="354" y2="82" class="measure-tick"/>
+          <line id="dropBottomTick" x1="326" y1="126" x2="354" y2="126" class="measure-tick"/>
+          <text id="dropLabel" x="338" y="107" text-anchor="end" class="diagram-label">柱間高低差 203mm</text>
+
+          <text x="92" y="64" text-anchor="middle" class="post-label">水上側柱</text>
+          <text x="298" y="152" text-anchor="middle" class="post-label">水下側柱</text>
+          <text x="190" y="58" text-anchor="middle" class="roof-label">屋根ライン</text>
+        </svg>
+      </section>
+    </main>
+
+    <footer class="notes" aria-label="注意書き">
+      <p>※フラットタイプカーポート専用です</p>
+      <p>※アールタイプには対応していません</p>
+      <p>※特殊形状・後方支持タイプ等はメーカー図面をご確認ください</p>
+      <p>※参考値です</p>
+    </footer>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
