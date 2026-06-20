@@ -113,19 +113,19 @@ function updateDiagram(spanMm, slopeDeg, dropMm) {
   const groundY = 156;
   const postBottomY = groundY + 24;
   const spanY = postBottomY + 12;
-  const highY = 44;
+  const highPostTop = 50;
   const visualDrop = clamp(drawingDrop / 8, 14, 78);
-  const lowRoofY = highY + visualDrop;
-  const roofYAt = (x) => lowRoofY + ((highY - lowRoofY) * (x - roofLowX)) / (roofHighX - roofLowX);
-  const lowPostTop = roofYAt(lowX);
-  const highPostTop = roofYAt(highX);
+  const lowPostTop = highPostTop + visualDrop;
+  const roofSlope = (highPostTop - lowPostTop) / (highX - lowX);
+  const roofLowY = lowPostTop + roofSlope * (roofLowX - lowX);
+  const roofHighY = highPostTop + roofSlope * (roofHighX - highX);
   const dimX = Math.min(362, highX + 38);
   const tickLeftX = dimX - 12;
   const tickRightX = Math.min(372, dimX + 12);
-  const guideStartTopX = Math.min(roofHighX, highX + 6);
-  const guideStartBottomX = Math.max(roofLowX, lowX - 6);
+  const guideStartTopX = highX + 6;
+  const guideStartBottomX = lowX - 6;
 
-  setSvgLine(els.roofLine, roofLowX, lowRoofY, roofHighX, highY);
+  setSvgLine(els.roofLine, roofLowX, roofLowY, roofHighX, roofHighY);
   setSvgLine(els.lowPost, lowX, lowPostTop, lowX, postBottomY);
   setSvgLine(els.highPost, highX, highPostTop, highX, postBottomY);
 
@@ -134,13 +134,13 @@ function updateDiagram(spanMm, slopeDeg, dropMm) {
   setSvgLine(els.spanRightTick, highX, spanY - 7, highX, spanY + 7);
   setSvgText(els.spanLabel, 195, spanY + 17);
 
-  setSvgLine(els.dropTopGuide, guideStartTopX, highY, dimX, highY);
-  setSvgLine(els.dropBottomGuide, guideStartBottomX, lowRoofY, dimX, lowRoofY);
-  setSvgLine(els.dropLine, dimX, highY, dimX, lowRoofY);
-  setSvgLine(els.dropTopTick, tickLeftX, highY, tickRightX, highY);
-  setSvgLine(els.dropBottomTick, tickLeftX, lowRoofY, tickRightX, lowRoofY);
+  setSvgLine(els.dropTopGuide, guideStartTopX, highPostTop, dimX, highPostTop);
+  setSvgLine(els.dropBottomGuide, guideStartBottomX, lowPostTop, dimX, lowPostTop);
+  setSvgLine(els.dropLine, dimX, highPostTop, dimX, lowPostTop);
+  setSvgLine(els.dropTopTick, tickLeftX, highPostTop, tickRightX, highPostTop);
+  setSvgLine(els.dropBottomTick, tickLeftX, lowPostTop, tickRightX, lowPostTop);
 
-  const dropLabelY = lowRoofY + 18;
+  const dropLabelY = lowPostTop + 18;
   setDropLabel(Math.min(dimX + 16, 374), dropLabelY, dropMm);
   els.spanLabel.textContent = spanMm > 0 ? `柱間寸法 ${formatMm(spanMm)}` : "柱間寸法 --mm";
 }
