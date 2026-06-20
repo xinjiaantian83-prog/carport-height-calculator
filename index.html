@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#ffffff">
   <title>フラットタイプカーポート 高さ計算機</title>
-  <link rel="stylesheet" href="css/styles.css?v=20260620-compact">
+  <link rel="stylesheet" href="css/styles.css?v=20260620-dynamic-svg">
 </head>
 <body>
   <div class="app-shell">
@@ -58,22 +58,24 @@
           <line id="roofLine" x1="70" y1="99" x2="320" y2="62" class="roof-line"/>
           <line id="roofUnderLine" x1="76" y1="112" x2="314" y2="76" class="roof-under-line"/>
 
-          <rect x="80" y="147" width="24" height="9" rx="1" class="base"/>
-          <rect x="286" y="147" width="24" height="9" rx="1" class="base"/>
+          <rect id="lowBase" x="80" y="147" width="24" height="9" rx="1" class="base"/>
+          <rect id="highBase" x="286" y="147" width="24" height="9" rx="1" class="base"/>
 
-          <line x1="92" y1="171" x2="298" y2="171" class="measure-line"/>
-          <line x1="92" y1="164" x2="92" y2="178" class="measure-tick"/>
-          <line x1="298" y1="164" x2="298" y2="178" class="measure-tick"/>
+          <line id="spanLine" x1="92" y1="171" x2="298" y2="171" class="measure-line"/>
+          <line id="spanLeftTick" x1="92" y1="164" x2="92" y2="178" class="measure-tick"/>
+          <line id="spanRightTick" x1="298" y1="164" x2="298" y2="178" class="measure-tick"/>
           <text x="195" y="186" text-anchor="middle" class="diagram-label" id="spanLabel">柱間寸法 2900mm</text>
 
+          <line id="dropTopGuide" x1="298" y1="72" x2="340" y2="72" class="measure-guide"/>
+          <line id="dropBottomGuide" x1="92" y1="107" x2="340" y2="107" class="measure-guide"/>
           <line id="dropLine" x1="340" y1="72" x2="340" y2="107" class="height-measure"/>
           <line id="dropTopTick" x1="326" y1="72" x2="354" y2="72" class="measure-tick"/>
           <line id="dropBottomTick" x1="326" y1="107" x2="354" y2="107" class="measure-tick"/>
           <text id="dropLabel" x="336" y="92" text-anchor="end" class="diagram-label">柱間高低差 203mm</text>
 
-          <text x="92" y="87" text-anchor="middle" class="post-label">水下側柱</text>
-          <text x="298" y="52" text-anchor="middle" class="post-label">水上側柱</text>
-          <text x="190" y="54" text-anchor="middle" class="roof-label">屋根ライン</text>
+          <text id="lowPostLabel" x="92" y="87" text-anchor="middle" class="post-label">水下側柱</text>
+          <text id="highPostLabel" x="298" y="52" text-anchor="middle" class="post-label">水上側柱</text>
+          <text id="roofLabel" x="190" y="54" text-anchor="middle" class="roof-label">屋根ライン</text>
         </svg>
       </section>
     </main>
@@ -86,6 +88,6 @@
     </footer>
   </div>
 
-  <script src="js/app.js?v=20260620-compact"></script>
+  <script src="js/app.js?v=20260620-dynamic-svg"></script>
 </body>
 </html>

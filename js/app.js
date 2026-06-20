@@ -31,11 +31,21 @@ const els = {
   dropLabel: document.getElementById("dropLabel"),
   highPost: document.getElementById("highPost"),
   lowPost: document.getElementById("lowPost"),
+  highBase: document.getElementById("highBase"),
+  lowBase: document.getElementById("lowBase"),
   roofLine: document.getElementById("roofLine"),
   roofUnderLine: document.getElementById("roofUnderLine"),
+  spanLine: document.getElementById("spanLine"),
+  spanLeftTick: document.getElementById("spanLeftTick"),
+  spanRightTick: document.getElementById("spanRightTick"),
+  dropTopGuide: document.getElementById("dropTopGuide"),
+  dropBottomGuide: document.getElementById("dropBottomGuide"),
   dropLine: document.getElementById("dropLine"),
   dropTopTick: document.getElementById("dropTopTick"),
-  dropBottomTick: document.getElementById("dropBottomTick")
+  dropBottomTick: document.getElementById("dropBottomTick"),
+  lowPostLabel: document.getElementById("lowPostLabel"),
+  highPostLabel: document.getElementById("highPostLabel"),
+  roofLabel: document.getElementById("roofLabel")
 };
 
 function readNumber(input) {
@@ -59,39 +69,83 @@ function formatMm(value) {
   return `${formatNumber(value)}mm`;
 }
 
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
+}
+
+function svgNumber(value) {
+  return Number(value.toFixed(2)).toString();
+}
+
 function setSvgLine(line, x1, y1, x2, y2) {
-  line.setAttribute("x1", x1);
-  line.setAttribute("y1", y1);
-  line.setAttribute("x2", x2);
-  line.setAttribute("y2", y2);
+  line.setAttribute("x1", svgNumber(x1));
+  line.setAttribute("y1", svgNumber(y1));
+  line.setAttribute("x2", svgNumber(x2));
+  line.setAttribute("y2", svgNumber(y2));
+}
+
+function setSvgRect(rect, x, y, width, height) {
+  rect.setAttribute("x", svgNumber(x));
+  rect.setAttribute("y", svgNumber(y));
+  rect.setAttribute("width", svgNumber(width));
+  rect.setAttribute("height", svgNumber(height));
+}
+
+function setSvgText(text, x, y) {
+  text.setAttribute("x", svgNumber(x));
+  text.setAttribute("y", svgNumber(y));
 }
 
 function updateDiagram(spanMm, slopeDeg, dropMm) {
-  const highY = 62;
-  const maxLowY = 116;
-  const visualDrop = dropMm === null ? 37 : Math.min(Math.max(dropMm / 6, 18), maxLowY - highY);
-  const lowRoofY = Math.min(highY + visualDrop, maxLowY);
+  const drawingSpan = spanMm > 0 ? spanMm : 2900;
+  const drawingDrop = dropMm === null ? 203 : dropMm;
+  const spanRatio = clamp((drawingSpan - 2500) / 3500, 0, 1);
+  const postDistance = 148 + spanRatio * 124;
+  const lowX = 195 - postDistance / 2;
+  const highX = 195 + postDistance / 2;
+  const roofOverhang = clamp(18 + spanRatio * 8, 18, 26);
+  const roofLowX = Math.max(28, lowX - roofOverhang);
+  const roofHighX = Math.min(362, highX + roofOverhang);
+  const baseY = 147;
+  const groundY = 156;
+  const spanY = 171;
+  const highY = 44;
+  const visualDrop = clamp(drawingDrop / 8, 14, 78);
+  const lowRoofY = highY + visualDrop;
   const lowPostTop = lowRoofY + 8;
-  const highPostTop = highY + 2;
+  const highPostTop = highY + 6;
+  const dimX = Math.min(362, highX + 38);
+  const tickLeftX = dimX - 12;
+  const tickRightX = Math.min(372, dimX + 12);
+  const guideStartTopX = Math.min(roofHighX, highX + 6);
+  const guideStartBottomX = Math.max(roofLowX, lowX - 6);
 
-  setSvgLine(els.roofLine, 70, lowRoofY, 320, highY);
-  setSvgLine(els.roofUnderLine, 76, lowRoofY + 13, 314, highY + 14);
-  setSvgLine(els.lowPost, 92, lowPostTop, 92, 156);
-  setSvgLine(els.highPost, 298, highPostTop, 298, 156);
-  setSvgLine(els.dropLine, 340, highY + 10, 340, lowRoofY + 8);
-  setSvgLine(els.dropTopTick, 326, highY + 10, 354, highY + 10);
-  setSvgLine(els.dropBottomTick, 326, lowRoofY + 8, 354, lowRoofY + 8);
+  setSvgLine(els.roofLine, roofLowX, lowRoofY, roofHighX, highY);
+  setSvgLine(els.roofUnderLine, roofLowX + 6, lowRoofY + 12, roofHighX - 6, highY + 13);
+  setSvgLine(els.lowPost, lowX, lowPostTop, lowX, groundY);
+  setSvgLine(els.highPost, highX, highPostTop, highX, groundY);
+  setSvgRect(els.lowBase, lowX - 12, baseY, 24, 9);
+  setSvgRect(els.highBase, highX - 12, baseY, 24, 9);
 
-  const dropLabelY = highY + ((lowRoofY - highY) / 2) + 13;
-  els.dropLabel.setAttribute("y", Math.round(dropLabelY));
+  setSvgLine(els.spanLine, lowX, spanY, highX, spanY);
+  setSvgLine(els.spanLeftTick, lowX, spanY - 7, lowX, spanY + 7);
+  setSvgLine(els.spanRightTick, highX, spanY - 7, highX, spanY + 7);
+  setSvgText(els.spanLabel, 195, 186);
+
+  setSvgLine(els.dropTopGuide, guideStartTopX, highY, dimX, highY);
+  setSvgLine(els.dropBottomGuide, guideStartBottomX, lowRoofY, dimX, lowRoofY);
+  setSvgLine(els.dropLine, dimX, highY, dimX, lowRoofY);
+  setSvgLine(els.dropTopTick, tickLeftX, highY, tickRightX, highY);
+  setSvgLine(els.dropBottomTick, tickLeftX, lowRoofY, tickRightX, lowRoofY);
+
+  const dropLabelY = clamp(lowRoofY + 12, highY + 20, 134);
+  setSvgText(els.dropLabel, dimX - 6, dropLabelY);
+  setSvgText(els.lowPostLabel, lowX, Math.max(82, lowPostTop - 13));
+  setSvgText(els.highPostLabel, highX, highY - 10);
+  setSvgText(els.roofLabel, (roofLowX + roofHighX) / 2, highY - 4);
+
   els.dropLabel.textContent = dropMm === null ? "柱間高低差 --mm" : `柱間高低差 ${formatMm(dropMm)}`;
   els.spanLabel.textContent = spanMm > 0 ? `柱間寸法 ${formatMm(spanMm)}` : "柱間寸法 --mm";
-
-  if (slopeDeg > 8) {
-    els.dropLabel.setAttribute("x", "336");
-  } else {
-    els.dropLabel.setAttribute("x", "336");
-  }
 }
 
 function update() {

@@ -242,6 +242,7 @@ h1 span {
 
 .measure-line,
 .measure-tick,
+.measure-guide,
 .height-measure {
   stroke: var(--warn);
   stroke-width: 2.5;
@@ -249,8 +250,14 @@ h1 span {
 }
 
 .measure-line,
+.measure-guide,
 .height-measure {
   stroke-dasharray: 5 5;
+}
+
+.measure-guide {
+  opacity: 0.68;
+  stroke-width: 1.5;
 }
 
 .diagram-label,
