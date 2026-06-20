@@ -29,6 +29,7 @@ const els = {
   summarySpan: document.getElementById("summarySpan"),
   spanLabel: document.getElementById("spanLabel"),
   dropLabel: document.getElementById("dropLabel"),
+  highPost: document.getElementById("highPost"),
   lowPost: document.getElementById("lowPost"),
   roofLine: document.getElementById("roofLine"),
   roofUnderLine: document.getElementById("roofUnderLine"),
@@ -66,29 +67,30 @@ function setSvgLine(line, x1, y1, x2, y2) {
 }
 
 function updateDiagram(spanMm, slopeDeg, dropMm) {
-  const highY = 72;
-  const minLowY = 92;
-  const maxLowY = 142;
-  const visualDrop = dropMm === null ? 38 : Math.min(Math.max(dropMm / 5, 20), maxLowY - highY);
+  const highY = 62;
+  const maxLowY = 116;
+  const visualDrop = dropMm === null ? 37 : Math.min(Math.max(dropMm / 6, 18), maxLowY - highY);
   const lowRoofY = Math.min(highY + visualDrop, maxLowY);
-  const lowPostTop = lowRoofY + 10;
+  const lowPostTop = lowRoofY + 8;
+  const highPostTop = highY + 2;
 
-  setSvgLine(els.roofLine, 70, highY, 320, lowRoofY);
-  setSvgLine(els.roofUnderLine, 76, highY + 16, 314, lowRoofY + 14);
-  setSvgLine(els.lowPost, 298, Math.max(lowPostTop, minLowY), 298, 216);
+  setSvgLine(els.roofLine, 70, lowRoofY, 320, highY);
+  setSvgLine(els.roofUnderLine, 76, lowRoofY + 13, 314, highY + 14);
+  setSvgLine(els.lowPost, 92, lowPostTop, 92, 156);
+  setSvgLine(els.highPost, 298, highPostTop, 298, 156);
   setSvgLine(els.dropLine, 340, highY + 10, 340, lowRoofY + 8);
   setSvgLine(els.dropTopTick, 326, highY + 10, 354, highY + 10);
   setSvgLine(els.dropBottomTick, 326, lowRoofY + 8, 354, lowRoofY + 8);
 
-  const dropLabelY = highY + ((lowRoofY - highY) / 2) + 14;
+  const dropLabelY = highY + ((lowRoofY - highY) / 2) + 13;
   els.dropLabel.setAttribute("y", Math.round(dropLabelY));
   els.dropLabel.textContent = dropMm === null ? "柱間高低差 --mm" : `柱間高低差 ${formatMm(dropMm)}`;
   els.spanLabel.textContent = spanMm > 0 ? `柱間寸法 ${formatMm(spanMm)}` : "柱間寸法 --mm";
 
   if (slopeDeg > 8) {
-    els.dropLabel.setAttribute("x", "334");
+    els.dropLabel.setAttribute("x", "336");
   } else {
-    els.dropLabel.setAttribute("x", "338");
+    els.dropLabel.setAttribute("x", "336");
   }
 }
 
