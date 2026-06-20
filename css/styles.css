@@ -230,16 +230,6 @@ h1 span {
   stroke-linecap: square;
 }
 
-.roof-under-line {
-  stroke: #9ca3af;
-  stroke-width: 2;
-  stroke-linecap: square;
-}
-
-.base {
-  fill: #4b5563;
-}
-
 .measure-line,
 .measure-tick,
 .measure-guide,

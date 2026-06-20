@@ -31,10 +31,7 @@ const els = {
   dropLabel: document.getElementById("dropLabel"),
   highPost: document.getElementById("highPost"),
   lowPost: document.getElementById("lowPost"),
-  highBase: document.getElementById("highBase"),
-  lowBase: document.getElementById("lowBase"),
   roofLine: document.getElementById("roofLine"),
-  roofUnderLine: document.getElementById("roofUnderLine"),
   spanLine: document.getElementById("spanLine"),
   spanLeftTick: document.getElementById("spanLeftTick"),
   spanRightTick: document.getElementById("spanRightTick"),
@@ -84,13 +81,6 @@ function setSvgLine(line, x1, y1, x2, y2) {
   line.setAttribute("y2", svgNumber(y2));
 }
 
-function setSvgRect(rect, x, y, width, height) {
-  rect.setAttribute("x", svgNumber(x));
-  rect.setAttribute("y", svgNumber(y));
-  rect.setAttribute("width", svgNumber(width));
-  rect.setAttribute("height", svgNumber(height));
-}
-
 function setSvgText(text, x, y) {
   text.setAttribute("x", svgNumber(x));
   text.setAttribute("y", svgNumber(y));
@@ -106,7 +96,6 @@ function updateDiagram(spanMm, slopeDeg, dropMm) {
   const roofOverhang = postDistance * 0.16;
   const roofLowX = Math.max(28, lowX - roofOverhang);
   const roofHighX = Math.min(362, highX + roofOverhang);
-  const baseY = 147;
   const groundY = 156;
   const spanY = 171;
   const highY = 44;
@@ -121,11 +110,8 @@ function updateDiagram(spanMm, slopeDeg, dropMm) {
   const guideStartBottomX = Math.max(roofLowX, lowX - 6);
 
   setSvgLine(els.roofLine, roofLowX, lowRoofY, roofHighX, highY);
-  setSvgLine(els.roofUnderLine, roofLowX + 6, lowRoofY + 12, roofHighX - 6, highY + 13);
   setSvgLine(els.lowPost, lowX, lowPostTop, lowX, groundY);
   setSvgLine(els.highPost, highX, highPostTop, highX, groundY);
-  setSvgRect(els.lowBase, lowX - 12, baseY, 24, 9);
-  setSvgRect(els.highBase, highX - 12, baseY, 24, 9);
 
   setSvgLine(els.spanLine, lowX, spanY, highX, spanY);
   setSvgLine(els.spanLeftTick, lowX, spanY - 7, lowX, spanY + 7);
